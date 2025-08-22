@@ -7,35 +7,72 @@
           <div class="row mb-3">
             <div class="col-12 col-md-6">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" v-model="formData.username" required>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                v-model="formData.username"
+                @blur="() => validateName(true)"
+                @input="() => validateName(false)"
+              />
+              <div v-if="errors.username" class="text-danger">{{ errors.username }}</div>
             </div>
             <div class="col-12 col-md-6">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" v-model="formData.password" minlength="4" maxlength="10" required>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                v-model="formData.password"
+                @blur="() => validatePassword(true)"
+                @input="() => validatePassword(false)"
+              />
+              <div v-if="errors.password" class="text-danger">{{ errors.password }}</div>
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-12 col-md-6">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian" required>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="isAustralian"
+                  v-model="formData.isAustralian"
+                  @change="() => validateResident(true)"
+                >
                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
               </div>
+              <div v-if="errors.resident" class="text-danger">{{ errors.resident }}</div>
             </div>
             <div class="col-12 col-md-6">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" v-model="formData.gender" required>
+              <select
+                class="form-select"
+                id="gender"
+                v-model="formData.gender"
+                @change="() => validateGender(true)"
+              >
                 <option disabled value="">Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
+              <div v-if="errors.gender" class="text-danger">{{ errors.gender }}</div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="reason" class="form-label">Reason for joining</label>
-            <textarea class="form-control" id="reason" rows="3" v-model="formData.reason" minlength="10" maxlength="300" required></textarea>
+            <textarea
+              class="form-control"
+              id="reason"
+              rows="3"
+              v-model="formData.reason"
+              @blur="() => validateReason(true)"
+              @input="() => validateReason(false)"
+            ></textarea>
+            <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
           </div>
 
           <div class="text-center">
@@ -79,13 +116,87 @@ const formData = ref({
 
 const submittedCards = ref([])
 
+const errors = ref({
+  username: null,
+  password: null,
+  resident: null,
+  gender: null,
+  reason: null
+})
+
+function validateName(blur) {
+  if (formData.value.username.length < 3) {
+    if (blur) errors.value.username = 'Name must be at least 3 characters'
+  } else {
+    errors.value.username = null
+  }
+}
+
+function validatePassword(blur) {
+  const password = formData.value.password
+  const minLength = 8
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasLowercase = /[a-z]/.test(password)
+  const hasNumber = /\d/.test(password)
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  if (password.length < minLength) {
+    if (blur) errors.value.password = `Password must be at least ${minLength} characters long.`
+  } else if (!hasUppercase) {
+    if (blur) errors.value.password = 'Password must contain at least one uppercase letter.'
+  } else if (!hasLowercase) {
+    if (blur) errors.value.password = 'Password must contain at least one lowercase letter.'
+  } else if (!hasNumber) {
+    if (blur) errors.value.password = 'Password must contain at least one number.'
+  } else if (!hasSpecialChar) {
+    if (blur) errors.value.password = 'Password must contain at least one special character.'
+  } else {
+    errors.value.password = null
+  }
+}
+
+function validateResident(blur) {
+  if (!formData.value.isAustralian) {
+    if (blur) errors.value.resident = 'Please confirm residency'
+  } else {
+    errors.value.resident = null
+  }
+}
+
+function validateGender(blur) {
+  if (!formData.value.gender) {
+    if (blur) errors.value.gender = 'Please select a gender'
+  } else {
+    errors.value.gender = null
+  }
+}
+
+function validateReason(blur) {
+  const text = formData.value.reason.trim()
+  if (text.length < 10) {
+    if (blur) errors.value.reason = 'Reason must be at least 10 characters'
+  } else {
+    errors.value.reason = null
+  }
+}
+
 function submitForm() {
-  submittedCards.value.push({ ...formData.value })
+  validateName(true)
+  validatePassword(true)
+  validateResident(true)
+  validateGender(true)
+  validateReason(true)
+
+  if (!errors.value.username && !errors.value.password && !errors.value.resident && !errors.value.gender && !errors.value.reason) {
+    submittedCards.value.push({ ...formData.value })
+    clearForm()
+  }
 }
 
 function clearForm() {
   formData.value = { username: '', password: '', isAustralian: false, gender: '', reason: '' }
   submittedCards.value = []
+  errors.value = { username: null, password: null, resident: null, gender: null, reason: null }
 }
 </script>
 
