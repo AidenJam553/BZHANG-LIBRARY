@@ -7,24 +7,25 @@
           <div class="row mb-3">
             <div class="col-12 col-md-6">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" v-model="formData.username">
+              <input type="text" class="form-control" id="username" v-model="formData.username" required>
             </div>
             <div class="col-12 col-md-6">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" v-model="formData.password">
+              <input type="password" class="form-control" id="password" v-model="formData.password" minlength="4" maxlength="10" required>
             </div>
           </div>
 
           <div class="row mb-3">
             <div class="col-12 col-md-6">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian">
+                <input type="checkbox" class="form-check-input" id="isAustralian" v-model="formData.isAustralian" required>
                 <label class="form-check-label" for="isAustralian">Australian Resident?</label>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" v-model="formData.gender">
+              <select class="form-select" id="gender" v-model="formData.gender" required>
+                <option disabled value="">Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -34,7 +35,7 @@
 
           <div class="mb-3">
             <label for="reason" class="form-label">Reason for joining</label>
-            <textarea class="form-control" id="reason" rows="3" v-model="formData.reason"></textarea>
+            <textarea class="form-control" id="reason" rows="3" v-model="formData.reason" minlength="10" maxlength="300" required></textarea>
           </div>
 
           <div class="text-center">
@@ -72,7 +73,7 @@ const formData = ref({
   username: '',
   password: '',
   isAustralian: false,
-  gender: 'female',
+  gender: '',
   reason: ''
 })
 
@@ -83,7 +84,7 @@ function submitForm() {
 }
 
 function clearForm() {
-  formData.value = { username: '', password: '', isAustralian: false, gender: 'female', reason: '' }
+  formData.value = { username: '', password: '', isAustralian: false, gender: '', reason: '' }
   submittedCards.value = []
 }
 </script>
