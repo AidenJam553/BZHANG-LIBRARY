@@ -83,28 +83,23 @@
       </div>
     </div>
 
-    <!-- Cards full-width row -->
+    <!-- PrimeVue DataTable -->
     <div class="row mt-5" v-if="submittedCards.length">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
-        <div class="col" v-for="(card, index) in submittedCards" :key="index">
-          <div class="card h-100">
-            <div class="card-header">User Information</div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Username: {{ card.username }}</li>
-              <li class="list-group-item">Password: {{ card.password }}</li>
-              <li class="list-group-item">Australian Resident: {{ card.isAustralian ? 'Yes' : 'No' }}</li>
-              <li class="list-group-item">Gender: {{ card.gender }}</li>
-              <li class="list-group-item">Reason: {{ card.reason }}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <DataTable :value="submittedCards" class="p-datatable-sm">
+        <Column field="username" header="Username"></Column>
+        <Column field="password" header="Password"></Column>
+        <Column header="Australian Resident" :body="residentTemplate"></Column>
+        <Column field="gender" header="Gender"></Column>
+        <Column field="reason" header="Reason"></Column>
+      </DataTable>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 
 const formData = ref({
   username: '',
@@ -195,8 +190,12 @@ function submitForm() {
 
 function clearForm() {
   formData.value = { username: '', password: '', isAustralian: false, gender: '', reason: '' }
-  submittedCards.value = []
   errors.value = { username: null, password: null, resident: null, gender: null, reason: null }
+}
+
+// DataTable templates
+function residentTemplate(rowData) {
+  return rowData.isAustralian ? 'true' : 'false'
 }
 </script>
 
