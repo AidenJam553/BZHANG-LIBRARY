@@ -9,7 +9,8 @@ const formData = ref({
   confirmPassword: '',
   isAustralian: false,
   reason: '',
-  gender: ''
+  gender: '',
+  suburb: 'Clayton'
 })
 
 const submittedCards = ref([])
@@ -32,7 +33,8 @@ const clearForm = () => {
     confirmPassword: '',
     isAustralian: false,
     reason: '',
-    gender: ''
+    gender: '',
+    suburb: 'Clayton'
   }
 }
 
@@ -196,6 +198,37 @@ const validateReason = (blur) => {
               {{ reasonSuccess }}
             </div>
           </div>
+
+          <!-- Fifth row: Suburb field demonstration -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="suburb-vbind" class="form-label">Suburb (v-bind - One-way binding)</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="suburb-vbind" 
+                v-bind:value="formData.suburb" 
+              />
+              <small class="text-muted">Changes here won't update the data source</small>
+            </div>
+            <div class="col-md-6">
+              <label for="suburb-vmodel" class="form-label">Suburb (v-model - Two-way binding)</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="suburb-vmodel" 
+                v-model="formData.suburb" 
+              />
+              <small class="text-success">Changes here will update the data source</small>
+            </div>
+          </div>
+
+          <!-- Display current suburb value -->
+          <div class="mb-3">
+            <div class="alert alert-info">
+              <strong>Current suburb value in formData:</strong> {{ formData.suburb }}
+            </div>
+          </div>
           <div class="text-center">
             <button type="submit" class="btn btn-primary me-2">Submit</button>
             <button type="button" class="btn btn-secondary" @click="clearForm">Clear</button>
@@ -213,6 +246,7 @@ const validateReason = (blur) => {
       <Column field="isAustralian" header="Australian Resident"></Column>
       <Column field="gender" header="Gender"></Column>
       <Column field="reason" header="Reason"></Column>
+      <Column field="suburb" header="Suburb"></Column>
     </DataTable>
   </div>
 
@@ -233,6 +267,7 @@ const validateReason = (blur) => {
           </li>
           <li class="list-group-item">Gender: {{ card.gender }}</li>
           <li class="list-group-item">Reason: {{ card.reason }}</li>
+          <li class="list-group-item">Suburb: {{ card.suburb }}</li>
         </ul>
       </div>
     </div>
