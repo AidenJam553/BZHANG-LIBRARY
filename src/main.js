@@ -1,21 +1,19 @@
-import './assets/main.css'
-// import './style.css'
+// import './assets/main.css'
+// import '@/assets/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap'
 
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// PrimeVue setup
 import PrimeVue from 'primevue/config'
-import Aura from '@primeuix/themes/aura'
-import 'primeicons/primeicons.css'
+import Aura from '@primevue/themes/aura'
+// import DataTable from 'primevue/datatable'
+// import Column from 'primevue/Column'
 
 const app = createApp(App)
-app.use(PrimeVue, {
-  theme: {
-    preset: Aura
-  }
-})
+app.use(PrimeVue, { theme: { preset: Aura } })
+
+// app.component('DataTable', DataTable)
+// app.component('Column', Column)
 
 app.mount('#app')
