@@ -21,8 +21,18 @@ const submitForm = () => {
   validateConfirmPassword(true)
   validateReason(true)
   if (!errors.value.username && !errors.value.password && !errors.value.confirmPassword) {
+    // Save user credentials for login
+    const userCredentials = {
+      username: formData.value.username,
+      password: formData.value.password
+    }
+    localStorage.setItem('userCredentials', JSON.stringify(userCredentials))
+    
     submittedCards.value.push({ ...formData.value })
     clearForm()
+    
+    // Show success message
+    alert('Registration successful! You can now use your username and password to login.')
   }
 }
 
@@ -111,9 +121,9 @@ const validateReason = (blur) => {
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-8 offset-md-2">
-        <h1 class="text-center">🗄️ W5. Library Registration Form</h1>
+        <h1 class="text-center">🗄️ Library Registration Form</h1>
         <p class="text-center">
-          Let's build some more advanced features into our form.
+          Register to become a member and access exclusive library content.
         </p>
         <form @submit.prevent="submitForm">
           <!-- First row: Username and Gender -->

@@ -1,3 +1,35 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const isAuthenticated = ref(false)
+const username = ref('')
+const showDropdown = ref(false)
+
+const checkAuthStatus = () => {
+  isAuthenticated.value = localStorage.getItem('isAuthenticated') === 'true'
+  username.value = localStorage.getItem('username') || ''
+}
+
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value
+}
+
+const logout = () => {
+  localStorage.removeItem('isAuthenticated')
+  localStorage.removeItem('username')
+  isAuthenticated.value = false
+  username.value = ''
+  showDropdown.value = false
+  router.push('/')
+}
+
+onMounted(() => {
+  checkAuthStatus()
+})
+</script>
+
 <template>
   <!-- Using Bootstrap's Header template (starter code) -->
   <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
@@ -11,6 +43,17 @@
         </li>
         <li class="nav-item">
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
+        </li>
+        <li v-if="!isAuthenticated" class="nav-item">
+          <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+        </li>
+        <li v-if="isAuthenticated" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" @click="toggleDropdown" aria-expanded="false">
+            Welcome, {{ username }}
+          </a>
+          <ul v-if="showDropdown" class="dropdown-menu show">
+            <li><a class="dropdown-item" href="#" @click="logout">Logout</a></li>
+          </ul>
         </li>
       </ul>
     </header>
@@ -51,5 +94,50 @@
 
 .dropdown-toggle {
   outline: 0;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  color: #1e2125;
+  background-color: #e9ecef;
 }
 </style>
