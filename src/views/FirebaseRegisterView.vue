@@ -82,7 +82,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../Firebase/init.js'
 import { useRouter } from 'vue-router'
 
 // Reactive state variables
@@ -95,7 +96,6 @@ const success = ref(false)
 
 // Service instances
 const router = useRouter()
-const auth = getAuth()
 
 // Computed property to validate form
 const isFormValid = computed(() => {

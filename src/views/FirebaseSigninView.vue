@@ -101,7 +101,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithPopup, GoogleAuthProvider, signOut as firebaseSignOut, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../Firebase/init.js'
 import { useRouter } from 'vue-router'
 
 const user = ref(null)
@@ -112,7 +113,6 @@ const password = ref('')
 const showEmailForm = ref(false)
 
 // Initialize Firebase Auth
-const auth = getAuth()
 const provider = new GoogleAuthProvider()
 const router = useRouter()
 
