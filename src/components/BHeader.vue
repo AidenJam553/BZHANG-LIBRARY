@@ -47,6 +47,9 @@ onMounted(() => {
         <li v-if="!isAuthenticated" class="nav-item">
           <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/firebase-login" class="nav-link" active-class="active">Firebase Login</router-link>
+        </li>
         <li v-if="isAuthenticated" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" @click="toggleDropdown" aria-expanded="false">
             Welcome, {{ username }}

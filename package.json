@@ -11,8 +11,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.1",
     "@primevue/themes": "^4.0.4",
     "bootstrap": "^5.3.3",
+    "firebase": "^12.3.0",
     "primevue": "^4.0.4",
     "vue": "^3.4.29",
     "vue-router": "^4.5.1"
