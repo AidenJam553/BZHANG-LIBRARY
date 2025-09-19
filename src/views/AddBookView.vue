@@ -55,6 +55,9 @@
         </div>
       </div>
     </div>
+    
+    <!-- BookList Component -->
+    <BookList />
   </div>
 </template>
 
@@ -62,6 +65,7 @@
 import { ref } from 'vue'
 import { db } from '../Firebase/init.js'
 import { collection, addDoc } from 'firebase/firestore'
+import BookList from '../components/BookList.vue'
 
 // Reactive references
 const isbn = ref('')
