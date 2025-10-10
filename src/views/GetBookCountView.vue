@@ -20,7 +20,7 @@ export default {
   methods: {
     async getBookCount() {
       try {
-        const response = await axios.get('https://us-central1-week7-bohan.cloudfunctions.net/countBooks');
+        const response = await axios.get('http://localhost:5001/week7-bohan/us-central1/countBooks');
         this.count = response.data.count;
         this.error = null;
       } catch (error) {

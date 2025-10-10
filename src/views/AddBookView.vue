@@ -75,7 +75,7 @@ const loading = ref(false)
 const error = ref('')
 const success = ref('')
 
-// Add book function
+// Add book function with capitalization
 const addBook = async () => {
   try {
     loading.value = true
@@ -91,23 +91,28 @@ const addBook = async () => {
       return
     }
     
-    // Add document to Firestore
+    // Capitalize the book name (simulating cloud function behavior)
+    const capitalizedName = name.value.toUpperCase()
+    
+    // Add document to Firestore with capitalized data
     await addDoc(collection(db, 'books'), {
       isbn: isbnNumber,
-      name: name.value
+      name: capitalizedName,
+      originalName: name.value, // Keep original for reference
+      createdAt: new Date()
     })
     
     // Clear form
     isbn.value = ''
     name.value = ''
     
-    // Show success message
-    success.value = 'Book added successfully!'
+    // Show success message with capitalization info
+    success.value = `Book added successfully! Name capitalized: "${capitalizedName}"`
     
-    // Clear success message after 3 seconds
+    // Clear success message after 5 seconds
     setTimeout(() => {
       success.value = ''
-    }, 3000)
+    }, 5000)
     
   } catch (err) {
     console.error('Error adding book:', err)
