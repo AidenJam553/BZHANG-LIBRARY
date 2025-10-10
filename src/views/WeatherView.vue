@@ -157,11 +157,16 @@ export default {
   width: 300px;
   font-size: 16px;
   background-color: white;
+  color: #000;
 }
 
 .search-input:focus {
   outline: none;
   border-color: #007bff;
+}
+
+.search-input::placeholder {
+  color: #666;
 }
 
 .search-button {

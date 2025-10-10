@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const showHeader = computed(() => {
-  return route.name !== 'CountBookAPI'
+  return route.name !== 'CountBookAPI' && route.name !== 'GetAllBookAPI'
 })
 </script>
 
